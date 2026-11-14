@@ -26,6 +26,7 @@ python3 ../../tools/gates.py check                 # all entities pass their gat
 python3 ../../tools/gates.py self-test             # D8: every gate can fail (16/16)
 python3 ../../tools/retriever.py index             # build the BM25 index
 python3 ../../tools/retriever.py search "ما سقف عدد الكلمات في الرسالة"
+python3 ../../tools/retriever.py route "اعمل حملة أوتريتش جديدة"   # TASK mode: which master to read in full
 python3 ../../tools/evalrun.py -k 10               # recall@10 measurement
 ```
 

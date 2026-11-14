@@ -33,11 +33,16 @@ The checks in `docs/GATES.md` are executable. After creating or editing any conc
 
 `REJECTED` means fix the file, not the gate. Before trusting the gates on a new machine, run `python3 tools/gates.py self-test` — it proves each gate can still fail (rule D8). A full working example lives in `examples/ar-outreach/`.
 
-## How you answer the human’s questions later
-Follow `docs/RETRIEVAL.md` — and use the retrieval engine instead of grepping by hand:
+## How you answer the human later — two modes (docs/RETRIEVAL.md)
+First classify the request, then use the engine — never grep by hand:
+
+**QUESTION** (“ما سقف الكلمات؟” — wants a fact):
+`python3 tools/retriever.py search "السؤال هنا" -k 10` → answer from the cited passages.
+
+**TASK** (“اعملي بزنس بلان”, “ابني حملة أوتريتش” — wants you to become the specialist and execute):
+`python3 tools/retriever.py route "المهمة هنا" -m 3` → read the returned master(s) **in full, in the given order** (hub first), then execute the task using only what they say, citing sources per claim. If `route` finds no master, the topic isn’t built yet — say so and propose building it (sources → atoms → concepts → master) instead of improvising.
 
     python3 tools/retriever.py index                        # after any bulk change
-    python3 tools/retriever.py search "السؤال هنا" -k 10    # BM25, Arabic-normalized
 
 Answer **only** from what you retrieved, cite the source file for each claim, show both sides on conflicts, and say **“not in the sources”** when there is no evidence. Never answer from your own training memory. Measure yourself with `python3 tools/evalrun.py -k 10` against `eval/questions.yml` before expanding the base.
 

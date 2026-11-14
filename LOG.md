@@ -11,3 +11,6 @@
 | 2026-11-14 | Known-answer evaluation measured on the example KB (8 real + 1 known-absent question) | `python3 tools/evalrun.py -k 10` | recall@10 = 8/9 = 0.889 (target 0.8; the miss is q9, intentionally unanswerable) |
 | 2026-11-14 | Faithfulness measured on a sample answer file | `python3 tools/evalrun.py -k 10 --answer eval/sample_answers.md` | q2: 2/2 sentences backed (100%) |
 | 2026-11-14 | Example KB built under examples/ar-outreach/ (1 source, 2 atom files, 2 concepts, 1 tension, 1 L0 master) | `python3 tools/gates.py check` (from examples/ar-outreach) | 3 entities, 0 rejected |
+| 2026-11-14 | TASK mode added: retriever route — ranks masters per task, hub-first reading order with question/level/words | `python3 tools/retriever.py route "ابني حملة أوتريتش" -m 2` | M_outreach_hub ranked #1 (score 7.4) |
+| 2026-11-14 | Arabic definite-article folding in tokenizer ('البريد' == 'بريد'), symmetric on index and query | `python3 tools/tests/run_all.py` | 16/16 passed; 'ما سقف عدد الكلمات' now ranks C_length_100 first |
+| 2026-11-14 | RETRIEVAL.md split into QUESTION vs TASK modes; AGENT.md/AGENTS.md/README updated with route | `python3 tools/gates.py self-test` | 16/16; example KB recall@10 unchanged at 0.889 |

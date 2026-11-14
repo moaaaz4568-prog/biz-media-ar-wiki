@@ -21,10 +21,12 @@ This file tells agents what the tooling is and how to run it.
 | `python3 tools/gates.py self-test` | D8: prove every gate can fail on known-bad input |
 | `python3 tools/retriever.py index` | (Re)build the BM25/SQLite index in `.kforge/` |
 | `python3 tools/retriever.py search "query" -k 10 [--topic T] [--layer concept]` | Retrieve passages (Arabic-normalized) |
+| `python3 tools/retriever.py route "task" -m 3` | TASK mode: which master(s) to read in full, in what order |
 | `python3 tools/evalrun.py -k 10 [--answer answers.md]` | Measure recall@k (+ faithfulness) vs `eval/questions.yml` |
 
 ## Working rules for agents
 - After creating/editing any concept or master, run its gate; REJECTED means fix the file.
+- For a TASK ("اعملي بزنس بلان", "build me X"): `route` first, then read the returned masters IN FULL before executing — that is the whole point of masters.
 - Answer questions only from retrieved passages; cite the source file per claim; say "not in the sources" when there is no evidence.
 - Rebuild the index after any bulk change before measuring.
 - Add every measured result to `LOG.md` with the exact command that produced it.

@@ -142,6 +142,39 @@ class Searcher:
         self.N = m.get('chunks', 0)
         self.avgdl = (m.get('total_words', 0) / self.N) if self.N else 0
 
+    def route(self, query, top_masters=3):
+        """Task mode (RETRIEVAL.md): which MASTER(S) should I read in full?
+
+        Aggregates BM25 chunk scores per master file, then returns a reading
+        order — hub first, sub-masters by score — with the question each
+        master answers, its level and word count. The agent then reads the
+        listed masters COMPLETELY before executing the task (the "expert in
+        one read" doctrine of MASTER_GUIDE.md).
+        """
+        hits = self.search(query, top_k=50, layer='master')
+        by_path = {}
+        for h in hits:
+            by_path.setdefault(h['path'], {'score': 0.0, 'headings': []})
+            by_path[h['path']]['score'] += h['score']
+            if h['heading'] and h['heading'] not in by_path[h['path']]['headings']:
+                by_path[h['path']]['headings'].append(h['heading'])
+        ranked = sorted(by_path.items(), key=lambda kv: -kv[1]['score'])[:top_masters]
+        out = []
+        for path, info in ranked:
+            full = os.path.join(self.root, path)
+            meta, body = split_frontmatter(
+                open(full, encoding='utf-8', errors='replace').read()) \
+                if os.path.isfile(full) else ({}, '')
+            out.append({'path': path, 'score': round(info['score'], 3),
+                        'question': str(meta.get('question', '')),
+                        'master_level': str(meta.get('master_level', '')),
+                        'hub': bool(meta.get('hub', False)),
+                        'words': len(body.split()),
+                        'matched_headings': info['headings'][:4]})
+        # hub masters read before sub-masters of equal rank
+        out.sort(key=lambda r: (not r['hub'], -r['score']))
+        return out
+
     def search(self, query, top_k=10, topic=None, layer=None):
         """BM25 (k1=1.5, b=0.75) over normalized tokens. Returns ranked rows."""
         toks = tokenize(query)
@@ -191,6 +224,10 @@ def main(argv=None):
     s.add_argument('--topic')
     s.add_argument('--layer', choices=sorted(set(LAYER_BY_FOLDER.values())))
     s.add_argument('--json', action='store_true')
+    r = sub.add_parser('route', help='TASK mode: which master(s) to read in full')
+    r.add_argument('query')
+    r.add_argument('-m', '--top-masters', type=int, default=3)
+    r.add_argument('--json', action='store_true')
     args = ap.parse_args(argv)
     root = os.getcwd()
 
@@ -212,6 +249,30 @@ def main(argv=None):
     if not os.path.isfile(db_path(root)):
         print('no index — run: python tools/retriever.py index first', file=sys.stderr)
         return 1
+    if args.cmd == 'route':
+        res = Searcher(root).route(args.query, args.top_masters)
+        if args.json:
+            print(json.dumps(res, ensure_ascii=False, indent=2))
+            return 0
+        if not res:
+            print('no master matches this task — the topic may not be built yet')
+            return 1
+        print('TASK ROUTE — read these masters IN FULL, in this order:\n')
+        for i, m in enumerate(res, 1):
+            print('%d. %s  [%.1f]' % (i, m['path'], m['score']))
+            if m['question']:
+                print('   question: %s' % m['question'])
+            bits = [b for b in ('hub' if m['hub'] else '',
+                               m['master_level'],
+                               '%d words' % m['words']) if b]
+            if bits:
+                print('   %s' % ' · '.join(bits))
+            if m['matched_headings']:
+                print('   matched: %s' % ', '.join(m['matched_headings'][:3]))
+        print('\nthen execute the task using ONLY what these masters say,')
+        print('citing sources for every claim, and saying "not in the sources"')
+        print('for anything they do not cover.')
+        return 0
     res = Searcher(root).search(args.query, args.top_k, args.topic, args.layer)
     if args.json:
         print(json.dumps(res, ensure_ascii=False, indent=2))

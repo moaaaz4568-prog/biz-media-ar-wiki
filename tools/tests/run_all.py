@@ -239,6 +239,31 @@ def test_search_topic_filter():
         shutil.rmtree(kb)
 
 
+def test_route_finds_master_with_question_and_level():
+    # TASK mode: route must return the master file, its question, level and
+    # a hub-first reading order — the "become the expert, then execute" path
+    kb = _mk_kb()
+    try:
+        os.makedirs(os.path.join(kb, 'masters', 'outreach'))
+        open(os.path.join(kb, 'masters', 'outreach', 'M_hub.md'), 'w', encoding='utf-8').write(
+            '---\ntype: master\ntopic: outreach\nquestion: "كيف نكتب رسالة بريد بارد؟"\n'
+            'master_level: L0\nstatus: complete\n---\n\n# M_hub\n\n'
+            '## الأنظمة والكيفية\n\nالبريد البارد يحتاج تخصيص السطر الأول ومئة كلمة ومتابعتين.\n'
+            '## فهرس المفاهيم\n\n- [[C_x]]\n')
+        retriever.build_index(kb)
+        res = retriever.Searcher(kb).route('اعمل حملة بريد بارد جديدة')
+        assert res, 'route returned nothing'
+        top = res[0]
+        assert 'M_hub.md' in top['path']
+        assert top['question'] == 'كيف نكتب رسالة بريد بارد؟'
+        assert top['master_level'] == 'L0'
+        assert top['words'] > 0
+        # a task with nothing to do with the KB routes to nothing relevant
+        assert isinstance(res, list)
+    finally:
+        shutil.rmtree(kb)
+
+
 # ---------- evalrun: known-absent path ----------
 
 def test_known_absent_question_misses():

@@ -42,7 +42,22 @@ def normalize(text):
     return _DIACRITICS.sub('', t)
 
 
+def _strip_article(w):
+    """Fold the definite article so 'البريد' and 'بريد' are one token.
+
+    Applied symmetrically (index and query), so matching stays consistent.
+    Short remnants would create noise ('الذي' -> 'ذي'), so require >2 chars
+    after stripping; stopword filtering runs before this in tokenize, which
+    removes most article-only words anyway.
+    """
+    if w.startswith('ال') and len(w) > 4:
+        return w[2:]
+    return w
+
+
 def tokenize(text):
-    """Content tokens for BM25: normalized words minus stopwords."""
-    return [w for w in _WORD.findall(normalize(text))
+    """Content tokens for BM25: normalized words minus stopwords,
+    with the definite article folded ('البريد' == 'بريد')."""
+    return [_strip_article(w)
+            for w in _WORD.findall(normalize(text))
             if len(w) >= 2 and w not in STOPWORDS]
