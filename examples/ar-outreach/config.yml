@@ -1,0 +1,41 @@
+# Per‑project settings. Edit these for your knowledge base; the method in docs/ stays the same.
+
+project:
+  name: "my-knowledge-base"      # rename to your project
+  language: "any"                # e.g. en, ar, es — content language; keep technical terms as-is
+
+# Topics are yours. List them as you discover them from sources/.
+# Example: [outreach, pricing, offers, content]
+topics: []
+
+concept:
+  min_words: 250
+  max_words: 600
+  min_evidence_quotes: 3
+  min_limits: 3
+
+# Graduated master thresholds (gap #3 fix): a first master that must clear
+# 18 sections / 10,000 words on day one gets rejected by M1/M2 and enthusiasm
+# dies with it. Masters now CLIMB levels instead: start at L0, and each
+# promotion is a dated LOG.md row. gates.py reads the level from the file's
+# front-matter (master_level: L0..L3); missing level = L0 (new topics).
+# Promotion is a human decision — the tool only checks, never promotes.
+master:
+  level: L0                      # current default level for NEW masters
+  sections: 18                   # final target (L3)
+  min_words: 10000               # final target (L3)
+  howto_min_ratio: 0.40          # "Systems & how-to" section must be >= this share
+  analysis_min_words: 1800       # "independent analysis" section minimum
+  levels:
+    L0: {sections: 6,  min_words: 2000,  analysis_min_words: 300}   # first draft
+    L1: {sections: 10, min_words: 4000,  analysis_min_words: 600}   # working draft
+    L2: {sections: 14, min_words: 7000,  analysis_min_words: 1200}  # review-ready
+    L3: {sections: 18, min_words: 10000, analysis_min_words: 1800}  # complete (default gates)
+
+retrieval:
+  top_k: 10                      # starting point; tune after your first two measurements
+  recall_at_k_target: 0.8        # starting target; revise after measuring
+  use_semantic_search: false     # turn on only after you measure it beats keyword search
+
+review:
+  human_review_required: ["master.howto", "master.analysis"]  # machines can't see intent

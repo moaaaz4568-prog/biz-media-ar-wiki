@@ -10,3 +10,7 @@
 | D6 | Move, never delete (archive/) | Delete | Bulk deletes are irreversible |
 | D7 | Keyword search default, semantic optional | Semantic by default | Semantic must be measured before trusting; keyword has no dependencies |
 | D8 | Every gate must be tested with a known‑bad case | Trust gates as written | A gate that always passes turns an error into “verified” |
+| D9 | Gates are code (`tools/gates.py`), not prose only | Keep gates as documentation | Prose gates depend on the assistant noticing violations; the 3 dead generations rotted exactly there |
+| D10 | Graduated master levels L0→L3 | One fixed 18‑section/10k bar | A first master rejected on day one kills the base’s momentum; climbing levels keep quality rising |
+| D11 | Retrieval is a BM25 engine (`tools/retriever.py`), keyword‑first | Assume the assistant reads INDEX.md and greps | “Read the indexes” fails at scale and was never measured; BM25 over Arabic-normalized tokens is measurable and dependency-free |
+| D12 | Evaluation runs as code (`tools/evalrun.py`), separate from generation | Assert quality informally | recall@k/faithfulness asserted but never measured is a number with no command — void by the LOG rule |

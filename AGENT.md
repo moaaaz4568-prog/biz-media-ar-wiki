@@ -22,11 +22,24 @@ Convert the files in `sources/` into a layered knowledge base so that later, whe
 4. **Concepts (`C_`).** Turn clusters of atoms into concepts under `concepts/<topic>/`, each following `docs/CONCEPT_GUIDE.md` and passing the concept gates in `docs/GATES.md`.
 5. **Tensions (`X_`).** Wherever two concepts or sources conflict, create a tension in `tensions/` holding both sides and the condition that tells them apart.
 6. **Topic‑complete gate.** Only when a topic’s concepts are complete do you build its master. Check every source in that topic produced atoms and concepts first.
-7. **Masters (`M_`).** Build one master per topic under `masters/<topic>/`, following `docs/MASTER_GUIDE.md` and passing the master gates. Prefer the **hub pattern**: a main master that explains the topic and links out to focused sub‑masters (see `docs/MASTER_GUIDE.md`).
+7. **Masters (`M_`).** Build one master per topic under `masters/<topic>/`, following `docs/MASTER_GUIDE.md` and passing the master gates. Prefer the **hub pattern**: a main master that explains the topic and links out to focused sub‑masters (see `docs/MASTER_GUIDE.md`). Start at level `L0` (6 sections / 2,000 words) and climb as the topic matures — the levels are in `config.yml`.
 8. **Index + log.** Keep an `INDEX.md` in every folder. Append what you did, and the command you used to measure it, to `LOG.md`.
 
+## Run the gates as code (never eyeball them)
+The checks in `docs/GATES.md` are executable. After creating or editing any concept or master, run:
+
+    python3 tools/gates.py concept concepts/<topic>/C_name.md
+    python3 tools/gates.py master   masters/<topic>/M_name.md
+
+`REJECTED` means fix the file, not the gate. Before trusting the gates on a new machine, run `python3 tools/gates.py self-test` — it proves each gate can still fail (rule D8). A full working example lives in `examples/ar-outreach/`.
+
 ## How you answer the human’s questions later
-Follow `docs/RETRIEVAL.md`: find the relevant atoms/concepts/masters first, answer **only** from them, cite the source file for each claim, show both sides on conflicts, and say **“not in the sources”** when there is no evidence. Never answer from your own training memory.
+Follow `docs/RETRIEVAL.md` — and use the retrieval engine instead of grepping by hand:
+
+    python3 tools/retriever.py index                        # after any bulk change
+    python3 tools/retriever.py search "السؤال هنا" -k 10    # BM25, Arabic-normalized
+
+Answer **only** from what you retrieved, cite the source file for each claim, show both sides on conflicts, and say **“not in the sources”** when there is no evidence. Never answer from your own training memory. Measure yourself with `python3 tools/evalrun.py -k 10` against `eval/questions.yml` before expanding the base.
 
 ## How you think (so other assistants can copy it)
 - Start from the source, not your memory. If you use outside knowledge to explain a term, say so explicitly.
