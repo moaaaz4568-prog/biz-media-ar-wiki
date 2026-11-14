@@ -1,0 +1,37 @@
+# Gates — measurable quality checks
+
+Every gate is a check you can run and that returns pass/fail. **A gate that can never fail is broken** — before trusting any gate, test it once with a case you know should fail, and confirm it fails.
+
+Three severities: **blocker** (entity is rejected until fixed) · **high** (accepted with a visible warning) · **low** (logged only).
+
+## Concept gates (`C_`)
+| ID | Check | Threshold | Severity |
+|---|---|---|---|
+| C1 | Triple match: `type:` × filename prefix × folder all agree | 3/3 | blocker |
+| C2 | Has a definition section | 1 | blocker |
+| C3 | Has a mechanism explaining *why* it works | ≥40 words | high |
+| C4 | Has “limits / when it breaks”, naming the variable that breaks it | ≥3 items | blocker |
+| C5 | Has ≥3 verbatim quotes, each with a source id | ≥3 | high |
+| C6 | Depth within range | 250–600 words | low |
+| C7 | No placeholders (TODO/TBD/XXX) | 0 | blocker |
+| C8 | ≥1 outgoing link `[[C_...]]` or `[[M_...]]` | ≥1 | low |
+
+## Master gates (`M_`)
+| ID | Check | Threshold | Severity |
+|---|---|---|---|
+| M1 | Exactly the required number of sections, none duplicated | = N (see MASTER_GUIDE) | blocker |
+| M2 | Total length | ≥ configured min | blocker |
+| M3 | The “Systems & how‑to” section is the densest part | ≥ 40% of words | high |
+| M4 | The “independent analysis” section is substantial | ≥ configured min | high |
+| M5 | The concept‑index section links to every concept of the topic, all links real | 0 broken | blocker |
+| M6 | Full front‑matter + triple match | valid | blocker |
+| M7 | Every how‑to recipe has a “when it breaks” line | 0 missing | blocker |
+| M8 | `status: complete` + a dated row in `LOG.md` | present | blocker |
+
+## Three things that drop a master instantly
+1. A recipe with no “when it breaks” line.
+2. A broken link in the concept‑index section (points to a file that doesn’t exist).
+3. A duplicated section.
+
+## What the machine cannot see
+A fake “when it breaks” line passes the automated check. So **human review of the how‑to and analysis sections is mandatory**, not optional. Separate structure‑checking (files exist, shape is right) from content‑checking (information is correct) — passing the first never implies the second.

@@ -1,0 +1,8 @@
+# Known‑answer questions. Each question's answer lives in a specific passage,
+# so you can test retrieval before expanding the base. Fill these from YOUR content
+# once the first topic is built — not with generic questions.
+questions: []
+top_k: 10
+success:
+  recall_at_k: 0.8     # starting target; revise after your first two measurements
+  faithfulness: 1.0    # every answer sentence backed by a passage

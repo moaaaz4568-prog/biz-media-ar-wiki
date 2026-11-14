@@ -1,0 +1,29 @@
+# Per‑project settings. Edit these for your knowledge base; the method in docs/ stays the same.
+
+project:
+  name: "my-knowledge-base"      # rename to your project
+  language: "any"                # e.g. en, ar, es — content language; keep technical terms as-is
+
+# Topics are yours. List them as you discover them from sources/.
+# Example: [outreach, pricing, offers, content]
+topics: []
+
+concept:
+  min_words: 250
+  max_words: 600
+  min_evidence_quotes: 3
+  min_limits: 3
+
+master:
+  sections: 18                   # exact section count a master must have
+  min_words: 10000               # minimum total length
+  howto_min_ratio: 0.40          # "Systems & how-to" section must be >= this share
+  analysis_min_words: 1800       # "independent analysis" section minimum
+
+retrieval:
+  top_k: 10                      # starting point; tune after your first two measurements
+  recall_at_k_target: 0.8        # starting target; revise after measuring
+  use_semantic_search: false     # turn on only after you measure it beats keyword search
+
+review:
+  human_review_required: ["master.howto", "master.analysis"]  # machines can't see intent
