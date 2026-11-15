@@ -135,6 +135,8 @@ def leak_test(root):
     leaks = []
     for ns_a, (_mark, _t) in canaries.items():
         kb_a = paths.find_kb(root, ns_a)
+        if not os.path.isfile(R.db_path(kb_a)):
+            R.build_index(kb_a)   # clean clones have no .kforge/ yet
         s = R.Searcher(kb_a)
         for ns_b, (mark_b, text_b) in canaries.items():
             if ns_a == ns_b:
