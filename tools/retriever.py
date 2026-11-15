@@ -59,7 +59,7 @@ CREATE INDEX IF NOT EXISTS idx_chunks_path ON chunks(path);
 """
 
 EXCLUDED_DIRS = ('.git', DB_DIR, 'archive', 'rejected', 'node_modules',
-                 'tools', 'docs', 'examples', 'namespaces')
+                 'tools', 'docs', 'examples', 'namespaces', 'eval')
 
 
 def db_path(root):
