@@ -21,7 +21,128 @@ sys.path.insert(0, os.path.join(TOOLS, 'kforge') if os.path.isdir(os.path.join(T
 import gates  # noqa: E402
 import retriever  # noqa: E402
 from kforge.arabic import normalize, tokenize  # noqa: E402
+from kforge import langs  # noqa: E402
 from kforge.yamlmini import loads  # noqa: E402
+
+
+# ---------- kforge.langs (v2 language registry) ----------
+
+def test_en_tokenizer_stems_plurals():
+    _n, tok = langs.for_language('en')
+    toks = tok('the shots pull slower on rainy days')
+    # plural folding is symmetric: 'shots' -> 'shot', 'days' -> 'day'
+    assert 'shot' in toks and 'day' in toks, toks
+    assert 'the' not in toks, toks  # english stopwords
+
+
+def test_lang_registry_auto_is_default():
+    for code in ('', None, 'zz'):
+        _n, tok = langs.for_language(code)
+        assert tok is not None
+    # 'auto' behaves like the v1 arabic-aware tokenizer
+    assert langs.for_language('auto')[1] is langs.for_language('ar')[1]
+
+
+# ---------- v2: namespaces, tiers, leak ----------
+
+def test_namespace_isolation_two_kbs():
+    """Two KBs in one repo: a search in A must never return B's files."""
+    root = tempfile.mkdtemp(prefix='kf_ns_')
+    try:
+        for ns, marker in (('alpha', 'alpha-canary-mark'), ('beta', 'beta-canary-mark')):
+            kb = os.path.join(root, 'namespaces', ns)
+            os.makedirs(os.path.join(kb, 'sources'))
+            open(os.path.join(kb, 'sources', 'CANARY-%s.md' % ns), 'w',
+                 encoding='utf-8').write(
+                'CANARY-%s %s passage text\n' % (ns, marker))
+            open(os.path.join(kb, 'config.yml'), 'w').write(
+                'namespace: %s\nproject:\n  name: %s\n' % (ns, ns))
+        from kforge import paths
+        kbs = paths.kb_dirs(root)
+        assert len(kbs) == 2, kbs
+        for kb in kbs:
+            retriever.build_index(kb)
+        kb_a = os.path.join(root, 'namespaces', 'alpha')
+        s = retriever.Searcher(kb_a)
+        hits = s.search('beta-canary-mark passage text', top_k=10)
+        assert not any('beta' in h['path'] for h in hits), \
+            [h['path'] for h in hits]
+        # and alpha's OWN canary is reachable from alpha
+        hits = s.search('alpha-canary-mark', top_k=5)
+        assert any('alpha' in h['path'] for h in hits)
+    finally:
+        shutil.rmtree(root)
+
+
+def test_eval_tiers_reported_separately():
+    import evalrun
+    kb = tempfile.mkdtemp(prefix='kf_tier_')
+    try:
+        os.makedirs(os.path.join(kb, 'sources'))
+        os.makedirs(os.path.join(kb, 'eval'))
+        open(os.path.join(kb, 'sources', 'S_t.md'), 'w', encoding='utf-8').write(
+            'البريد البارد يحتاج تخصيص السطر الأول. الرسائل القصيرة أفضل.\n')
+        open(os.path.join(kb, 'eval', 'questions.yml'), 'w', encoding='utf-8').write(
+            'questions:\n'
+            '  - id: qE\n    question: "ماذا يحتاج البريد البارد؟"\n    tier: exact\n'
+            '    expected: [sources/S_t.md]\n'
+            '  - id: qP\n    question: "ايه اللي يخلي الرسالة تشتغل؟"\n    tier: paraphrase\n'
+            '    expected: [sources/S_t.md]\n'
+            '  - id: qU\n    question: "لون السماء؟"\n    tier: unanswerable\n'
+            '    expected: []\n')
+        retriever.build_index(kb)
+        rows = evalrun.recall_at_k(kb, evalrun.load_questions(kb)[0], 10)
+        tiers = evalrun.per_tier(rows)
+        assert 'exact' in tiers and 'paraphrase' in tiers, tiers
+        assert 'unanswerable' in tiers, tiers
+        assert tiers['unanswerable']['n'] == 1
+    finally:
+        shutil.rmtree(kb)
+
+
+def test_incremental_index_only_rechunks_changed():
+    kb = tempfile.mkdtemp(prefix='kf_inc_')
+    try:
+        os.makedirs(os.path.join(kb, 'sources'))
+        p = os.path.join(kb, 'sources', 'S_i.md')
+        open(p, 'w', encoding='utf-8').write('النص الأول للقياس.\n')
+        retriever.build_index(kb)
+        # unchanged pass: 0 re-chunked
+        _nf, _nc, nnew, nunch = retriever.build_index(kb)
+        assert nnew == 0 and nunch == 1, (nnew, nunch)
+        # change the file: exactly 1 re-chunked
+        open(p, 'w', encoding='utf-8').write('النص الثاني بعد التعديل.\n')
+        _nf, _nc, nnew, nunch = retriever.build_index(kb)
+        assert nnew == 1, nnew
+    finally:
+        shutil.rmtree(kb)
+
+
+def test_quote_folding_allows_rewrapped_quotes():
+    """D18: a quote re-wrapped across lines still passes the byte-exact
+    gate as long as the words are the source's words in order."""
+    kb = tempfile.mkdtemp(prefix='kf_qf_')
+    try:
+        os.makedirs(os.path.join(kb, 'sources'))
+        src = os.path.join(kb, 'sources', 'S_w.md')
+        open(src, 'w', encoding='utf-8').write(
+            'The quick brown fox jumps over the lazy dog near the river bank '
+            'every single morning before sunrise.\n')
+        body = ('---\ntype: atom\ntopic: t\n---\n\n# T_w_01\n\n'
+                '"The quick brown fox jumps over the lazy dog"\n'
+                ' — sources/S_w.md\n')
+        ctx = {'root': kb, 'kb': kb, 'path': os.path.join(kb, 'atoms', 't', 'T_w.md'),
+               'rel': 'atoms/t/T_w.md', 'meta': {'type': 'atom', 'topic': 't'},
+               'body': body}
+        ok, detail = gates.gate_atom_byte_exact(ctx)
+        assert ok, detail
+        # and a tampered quote still fails
+        bad = body.replace('lazy dog', 'lazy cat')
+        ctx_bad = dict(ctx, body=bad)
+        ok2, _d = gates.gate_atom_byte_exact(ctx_bad)
+        assert not ok2
+    finally:
+        shutil.rmtree(kb)
 
 
 # ---------- kforge.arabic ----------
