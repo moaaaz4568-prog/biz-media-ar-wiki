@@ -7,6 +7,7 @@ Run from knowledge-forge/:  python3 -m pytest tools/tests -q
 """
 
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -296,7 +297,13 @@ def test_cli_self_test_exits_zero():
     r = subprocess.run([sys.executable, os.path.join(TOOLS, 'gates.py'), 'self-test'],
                        capture_output=True, text=True)
     assert r.returncode == 0, r.stdout + r.stderr
-    assert '16/16' in r.stdout
+    # v2 grew the gate set (T/X/G/N/M9/M10) — assert "all can fail", and
+    # the count only ever GROWS (a shrinking gate set is a regression)
+    m = re.search(r'(\d+)/(\d+) gates can fail', r.stdout)
+    assert m, r.stdout
+    assert m.group(1) == m.group(2), r.stdout
+    assert int(m.group(2)) >= 16, r.stdout
+    assert '(broken: none)' in r.stdout
 
 
 if __name__ == '__main__':

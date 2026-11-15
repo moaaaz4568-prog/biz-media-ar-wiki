@@ -39,3 +39,15 @@ retrieval:
 
 review:
   human_review_required: ["master.howto", "master.analysis"]  # machines can't see intent
+
+# v2 §4.2: dense rung (optional, local ONNX, degrades to keyword-only).
+# model + dim are PINNED — changing them requires a full vec rebuild,
+# enforced by embed.py (never mix two dims in one store).
+embedding:
+  model: e5-small        # e5-small | e5-large | bge-m3 (see tools/embed.py info)
+  dim: 384
+  batch: 8               # serial indexing; embedding is not the fast path
+
+retrieval:
+  engine: auto           # auto = hybrid when dense available, else keyword
+  fusion: rrf            # rrf | weighted (measure both — evalrun compares)

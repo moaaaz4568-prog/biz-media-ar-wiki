@@ -35,7 +35,15 @@ master:
 retrieval:
   top_k: 10                      # starting point; tune after your first two measurements
   recall_at_k_target: 0.8        # starting target; revise after measuring
-  use_semantic_search: false     # turn on only after you measure it beats keyword search
+  use_semantic_search: false
+  engine: auto
+  fusion: rrf     # turn on only after you measure it beats keyword search
 
 review:
   human_review_required: ["master.howto", "master.analysis"]  # machines can't see intent
+
+# v2 §4.2: dense rung (optional, local ONNX, degrades to keyword-only).
+embedding:
+  model: e5-small
+  dim: 384
+  batch: 8
