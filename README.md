@@ -27,6 +27,7 @@ Two complete examples ship in the repo — **different languages, different topi
 
 ```bash
 python3 tools/forge.py verify                       # gates + self-test + tests + eval + leak test
+#                                                     # clean-clone-to-green: PASS in 0.45s (measured, no dependencies)
 python3 tools/forge.py status                       # what is built, per namespace
 
 cd examples/ar-outreach                             # Arabic cold-email workshop KB
