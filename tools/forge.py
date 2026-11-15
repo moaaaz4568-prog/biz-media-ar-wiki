@@ -80,6 +80,14 @@ def cmd_verify(args):
         checks.append({'check': 'namespaces', 'ok': False,
                        'detail': 'no knowledge bases found'})
 
+    # indexes are derived data — a clean clone has none. Build them all
+    # BEFORE any eval/leak rung needs them.
+    import retriever as R
+    for kb in kbs:
+        if not os.path.isfile(R.db_path(kb)):
+            R.build_index(kb)
+
+    leak_done = False
     for kb in kbs:
         ns = paths.ns_name(kb)
         # skip scaffolds with no questions (root template, fresh inits)
@@ -94,10 +102,12 @@ def cmd_verify(args):
         run('eval recall@10 [%s]' % ns,
             [sys.executable, 'tools/evalrun.py', '-k', '10',
              '--namespace', ns])
-        # leak test: cross-namespace retrieval must return nothing
-        leak_ok, leak_detail = leak_test(root)
-        checks.append({'check': 'leak test', 'ok': leak_ok,
-                       'detail': leak_detail})
+        # leak test runs once after all indexes exist
+        if not leak_done:
+            leak_ok, leak_detail = leak_test(root)
+            checks.append({'check': 'leak test', 'ok': leak_ok,
+                           'detail': leak_detail})
+            leak_done = True
 
     ok = all(c['ok'] for c in checks)
     for c in checks:
