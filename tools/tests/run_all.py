@@ -286,7 +286,13 @@ def test_known_absent_question_misses():
         import evalrun
         rows = evalrun.recall_at_k(kb, evalrun.load_questions(kb)[0], 10)
         by_id = {r['id']: r['hit'] for r in rows}
-        assert by_id['qA'] is True and by_id['qB'] is False
+        # v2: expected:[] questions are the "not in the sources" contract —
+        # they carry hit=None (unscorable at retrieval level; GENERATION
+        # must answer them with exactly "not in the sources")
+        assert by_id['qA'] is True and by_id['qB'] is None
+        tiers = evalrun.per_tier(rows)
+        assert 'unanswerable' not in tiers or \
+            tiers['unanswerable']['n'] == 0  # no tier set = defaults exact
     finally:
         shutil.rmtree(kb)
 

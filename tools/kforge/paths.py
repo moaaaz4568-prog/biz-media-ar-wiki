@@ -39,6 +39,17 @@ def load_cfg(kb):
 
 
 def ns_name(kb, cfg=None):
+    """The namespace ID of a KB directory.
+
+    For KBs under namespaces/ or examples/ the FOLDER NAME is the id — it
+    is what --namespace addresses, so it must win over any config label
+    (a copied config.yml saying "my-knowledge-base" must not rename a KB).
+    The repo root falls back to its config name, else 'default'.
+    """
+    kb = os.path.abspath(kb)
+    parent = os.path.basename(os.path.dirname(kb))
+    if parent in ('namespaces', 'examples'):
+        return os.path.basename(kb)
     cfg = cfg if cfg is not None else load_cfg(kb)
     n = cfg.get('namespace') or cfg.get('project', {}).get('name')
     if n:

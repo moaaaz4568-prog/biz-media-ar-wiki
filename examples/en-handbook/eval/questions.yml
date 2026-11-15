@@ -1,0 +1,62 @@
+# Known-answer questions for the example KB (examples/en-handbook).
+# English handbook, different topic from ar-outreach — the generality
+# proof (idea 7): a change breaking either example fails the suite.
+questions:
+  - id: q1
+    question: "How long should a double espresso pull?"
+    tier: exact
+    expected: [sources/S_ops_handbook.md]
+  - id: q2
+    question: "What happens if the shot pulls longer than the band?"
+    tier: exact
+    expected: [sources/S_ops_handbook.md]
+  - id: q3
+    question: "How many people does a trading shift need?"
+    tier: exact
+    expected: [sources/S_ops_handbook.md]
+  - id: q4
+    question: "How long do espresso machines need to warm up?"
+    tier: exact
+    expected: [sources/S_ops_handbook.md]
+  - id: q5
+    question: "What temperature must milk crates not exceed on arrival?"
+    tier: exact
+    expected: [sources/S_ops_handbook.md]
+  - id: q6
+    question: "When should I order new grinder blades?"
+    tier: exact
+    expected: [sources/S_ops_handbook.md]
+  - id: q7
+    question: "How is the till counted and what variance triggers a review?"
+    tier: exact
+    expected: [sources/S_ops_handbook.md]
+  - id: q8
+    question: "Is a slow shot a dial problem or a blade problem?"
+    tier: comparison
+    expected: [sources/S_ops_handbook.md]
+  # --- paraphrase tier: same meaning, different words ---
+  - id: q10
+    question: "My shots are running sour this morning — what should I check?"
+    tier: paraphrase
+    expected: [sources/S_ops_handbook.md]
+  - id: q11
+    question: "We're swamped and one person just went home — what now?"
+    tier: paraphrase
+    expected: [sources/S_ops_handbook.md]
+  - id: q12
+    question: "Can I skip writing down the pastries I'm binning?"
+    tier: paraphrase
+    expected: [sources/S_ops_handbook.md]
+  - id: q13
+    question: "The new hire is quick — can she start on the register on day one?"
+    tier: paraphrase
+    expected: [sources/S_ops_handbook.md]
+  # unanswerable: tests the "not in the sources" contract
+  - id: q9
+    question: "What is the shop's annual marketing budget?"
+    tier: unanswerable
+    expected: []
+top_k: 10
+success:
+  recall_at_k: 0.8
+  faithfulness: 0.9

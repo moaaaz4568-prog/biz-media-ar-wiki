@@ -2,37 +2,68 @@
 # Each answer lives in a specific passage of S_outreach_workshop.md, so
 # retrieval is tested against content that really exists. Replace with YOUR
 # questions once your own topic is built.
+#
+# v2 — graduated evaluation (tiers): recall is reported PER TIER, never one
+# blended number. exact = wording close to the source; paraphrase = same
+# meaning, different words (the tier keyword retrieval historically loses);
+# comparison = both sides of a tension; unanswerable = expected: [] — the
+# "not in the sources" contract (generation must say exactly that).
 questions:
   - id: q1
     question: "ما أهم شيء في رسالة البريد البارد؟"
+    tier: exact
     expected: [sources/S_outreach_workshop.md]
   - id: q2
     question: "ما سقف عدد الكلمات المنصوح به للرسالة؟"
+    tier: exact
     expected: [sources/S_outreach_workshop.md]
   - id: q3
     question: "ماذا يحدث للرد عندما تتجاوز الرسالة مئة كلمة؟"
+    tier: exact
     expected: [sources/S_outreach_workshop.md]
   - id: q4
     question: "ما أثر التخصيص في السطر الأول على معدل الردود؟"
+    tier: exact
     expected: [sources/S_outreach_workshop.md]
   - id: q5
     question: "متى يكون توقيت الإرسال مؤثرا ومتى يذوب أثره؟"
+    tier: comparison
     expected: [sources/S_outreach_workshop.md]
   - id: q6
     question: "كم متابعة تكفي وبعد كم يوم من الرسالة الأولى؟"
+    tier: exact
     expected: [sources/S_outreach_workshop.md]
   - id: q7
     question: "على أي حجم دفعة يجب أن يقاس كل رقم؟"
+    tier: exact
     expected: [sources/S_outreach_workshop.md]
   - id: q8
     question: "ما خطر الموضوع المضلل في الرسالة؟"
+    tier: exact
+    expected: [sources/S_outreach_workshop.md]
+  # --- paraphrase tier: same meaning, deliberately different wording ---
+  - id: q10
+    question: "المتابعة الثانية تُرسل بعد مرور كم يوم؟"
+    tier: paraphrase
+    expected: [sources/S_outreach_workshop.md]
+  - id: q11
+    question: "لو الرسالة طويلة جدا ماذا يحدث لفرصة الحصول على رد؟"
+    tier: paraphrase
+    expected: [sources/S_outreach_workshop.md]
+  - id: q12
+    question: "هل يجوز أن أضع عنوانا جذابا لا يعبر عن محتوى الرسالة؟"
+    tier: paraphrase
+    expected: [sources/S_outreach_workshop.md]
+  - id: q13
+    question: "بأي عبارة افتتح رسالتي حتى يشعر العميل أنها كتبت له شخصيا؟"
+    tier: paraphrase
     expected: [sources/S_outreach_workshop.md]
   # q9 intentionally has NO expected source: it tests the "not in the sources"
   # path. BM25 still returns weak lexical matches (shared words like "رسالة"),
-  # so the harness scores it as a miss — the correct signal: the answer does
-  # not live in the base and generation must say so.
+  # so generation must still say "not in the sources".
   - id: q9
     question: "ما أفضل لون لتصميم شعار رسالة البريد؟"
+    tier: unanswerable
     expected: []
 top_k: 10
 success:

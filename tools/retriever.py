@@ -312,7 +312,11 @@ class Searcher:
         """
         cfg = paths.load_cfg(self.root).get('retrieval', {})
         if engine == 'auto':
+            # config 'engine: auto' means hybrid-if-available (else keyword);
+            # an explicit config value (keyword/hybrid/dense) is honored as-is
             engine = cfg.get('engine') or 'hybrid'
+            if engine == 'auto':
+                engine = 'hybrid'
 
         self.last_engine = {'retrieval': 'keyword', 'dense': None,
                             'fusion': None, 'rerank': None}

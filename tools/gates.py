@@ -74,10 +74,23 @@ SECTION_TITLES_EN = ['TL;DR', 'Philosophy', 'Definitions', 'Systems & how-to',
 PLACEHOLDER_RE = re.compile(r'\b(TODO|TBD|XXX|FIXME)\b')
 LINK_RE = re.compile(r'\[\[([^\]|#]+?)(?:#[^\]|]*)?(?:\|[^\]]*)?\]\]')
 LOG_ROW_RE = re.compile(r'^\|[^|]*\d{4}-\d{2}-\d{2}[^|]*\|', re.M)
-# quote + attribution: "..." — path   (path = a repo/KB-relative file)
+# quote + attribution: "..." — path   (path = a repo/KB-relative file).
+# Quotes may span lines (sources wrap at ~72 cols); [^”"] stops at the
+# closing mark, and \s matches the internal newlines.
 QUOTE_CITE_RE = re.compile(
-    r'[“"]([^”"]{1,400})[”"]\s*(?:—|--|-|،)\s*([A-Za-z0-9_./-]+\.md)')
+    r'[“"]([^”"]{1,600})[”"]\s*(?:—|--|-|،)\s*([A-Za-z0-9_./-]+\.md)', re.S)
 STALE_RE = re.compile(r'built_from_hash:\s*([0-9a-f]{8,40})')
+
+
+def _ws_fold(s):
+    """Collapse all whitespace runs to single spaces (line-wrap folding).
+
+    'byte-exact' means the WORDS are the source's words in order — a
+    source wrapped at 72 columns must still be quotable when the quote
+    is re-wrapped in the citing file. Physical line breaks are not
+    meaning; words are.
+    """
+    return re.sub(r'\s+', ' ', s).strip()
 
 
 def relpath(root, path):
@@ -164,9 +177,13 @@ def _cited_quotes(body):
 
 
 def _quote_found(kb, quote, cited):
-    """Byte-exact check of one quote against one cited file."""
+    """Byte-exact check of one quote against one cited file.
+
+    Comparison folds whitespace on both sides (line-wrap insensitive):
+    the source's words, in order, with nothing added or dropped.
+    """
     src = _read_source(kb, cited)
-    return bool(src) and quote in src
+    return bool(src) and _ws_fold(quote) in _ws_fold(src)
 
 
 # ---------- concept gates (C1–C8) ----------
