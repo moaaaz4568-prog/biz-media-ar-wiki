@@ -1,18 +1,64 @@
-# Known-answer questions for this namespace. Fill from YOUR content:
-# each question's answer must live in a specific passage you can name.
+# Known-answer questions for biz-media-ar (rebuild round).
+# Each answer lives in a specific passage of the S_ files, so retrieval is
+# tested against content that really exists. Tiers per v2 graduated eval:
+# exact / paraphrase / comparison / unanswerable (expected: []).
 questions:
   - id: q1
-    question: "REPLACE with a real question"
-    tier: exact                    # exact | paraphrase | comparison
-    expected: [sources/S_x.md]
+    question: "ما هو تسعير القيمة كما يعرّفه المصدر؟"
+    tier: exact
+    expected: [sources/S_cpt_CPT_CURATED_SALES_VALUE_PRICING.md]
   - id: q2
-    question: "REPLACE with a paraphrased question"
-    tier: paraphrase
-    expected: [sources/S_x.md]
+    question: "ما الذي يُربط به الأثر المتوقع قبل عرض السعر؟"
+    tier: exact
+    expected: [sources/S_cpt_CPT_CURATED_SALES_VALUE_PRICING.md]
   - id: q3
-    question: "REPLACE with a question the sources cannot answer"
+    question: "ما المثال الحسابي المذكور داخل دليل التسعير؟"
+    tier: exact
+    expected: [sources/S_cpt_CPT_CURATED_SALES_VALUE_PRICING.md]
+  - id: q4
+    question: "ما التوصية عند إنشاء نطاق إرسال جديد؟"
+    tier: exact
+    expected: [sources/S_cpt_CPT_CURATED_OUTBOUND_INFRASTRUCTURE.md]
+  - id: q5
+    question: "كيف يصف المصدر الاستهداف الجيد؟"
+    tier: exact
+    expected: [sources/S_cpt_CPT_CURATED_OUTBOUND_TARGETING.md]
+  - id: q6
+    question: "ما الخطوة الأولى في البيع قبل الحديث عن الحل أو السعر؟"
+    tier: paraphrase
+    expected: [sources/S_cpt_CPT_CURATED_SALES_PROBLEM_DIAGNOSIS.md]
+  - id: q7
+    question: "بأي أداة يمكن العثور على شركات تستخدم حلولاً مرتبطة بمشكلة العميل؟"
+    tier: paraphrase
+    expected: [sources/S_cpt_CPT_CURATED_OUTBOUND_TARGETING.md]
+  - id: q8
+    question: "ما الذي يميز الطرفين في جدال الرش العشوائي مقابل النهج المنظم؟"
+    tier: comparison
+    expected: [sources/S_cpt_CPT_CURATED_OUTBOUND_TARGETING.md]
+  - id: q9
+    question: "ما الفرق بين اعتبار مصادقة النطاق ضماناً واعتبارها شرطاً سابقاً؟"
+    tier: comparison
+    expected: [sources/S_cpt_CPT_CURATED_OUTBOUND_INFRASTRUCTURE.md]
+  - id: q10
+    question: "ما لون الهوية البصرية الموصى به لصفحة الهبوط؟"
     tier: unanswerable
     expected: []
+  - id: q11
+    question: "كم موظفاً يحتاج فريق المبيعات في السنة الأولى؟"
+    tier: unanswerable
+    expected: []
+  - id: q12
+    question: "ما السكربت الرسمي المعتمد لتحميل الترجمات وهل يحتاج كوكيز؟"
+    tier: exact
+    expected: [sources/S_wkt_wiki_all_talk.md]
+  - id: q13
+    question: "أين تُنقل قوائم الكتب والأسماء بدل البرومبت؟"
+    tier: exact
+    expected: [sources/S_wkt_wiki_all_talk.md]
+  - id: q14
+    question: "ما القاعدة حول الادعاء بنجاح غير مفحوص؟"
+    tier: paraphrase
+    expected: [sources/S_wkt_conversation-export.md]
 top_k: 10
 success:
   recall_at_k: 0.8
