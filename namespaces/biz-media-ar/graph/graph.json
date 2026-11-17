@@ -1,0 +1,638 @@
+{
+ "namespace": "biz-media-ar",
+ "built_from": "wiki-links (forge.py graph, RELATIONAL mode)",
+ "nodes": {
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_SALES_VALUE_PRICING.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_C_Send_Rate_Throttle.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_OUTBOUND_METRICS.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_SALES_RETENTION_FOLLOWUP.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_OUTBOUND_INFRASTRUCTURE.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_OUTBOUND_TARGETING.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_wkt_pro.md": {
+   "type": "source",
+   "topic": "wiki-building",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_CONTENT_POSITIONING.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_NEW_OUTBOUND_COLD_EMAIL_SYSTEM.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_SALES_PROBLEM_DIAGNOSIS.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_wkt_conversation-export.md": {
+   "type": "source",
+   "topic": "wiki-building",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_CONTENT_HOOK_CLARITY.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_OUTBOUND_WARMUP.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_OUTBOUND_OPS.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_OUTBOUND_POSTREPLY.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_C_Trust_Precedes_Transaction.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_OUTBOUND_MULTICHANNEL.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_C_One_Person_Agency.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_OUTBOUND_FOLLOWUP.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_wkt_prompt.md": {
+   "type": "source",
+   "topic": "wiki-building",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_SALES_CONSULTATIVE_CLOSING.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_SALES_OFFER_CLARITY.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_wkt_wiki_all_talk.md": {
+   "type": "source",
+   "topic": "wiki-building",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/sources/S_cpt_CPT_CURATED_CONTENT_STORY_STRUCTURE.md": {
+   "type": "source",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/concepts/wiki-building/C_evidence_first_wiki.md": {
+   "type": "concept",
+   "topic": "wiki-building",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/concepts/sales-outbound/C_content_funnel_clarity.md": {
+   "type": "concept",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/concepts/sales-outbound/C_signal_over_spray.md": {
+   "type": "concept",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/concepts/sales-outbound/C_trust_precedes_transaction.md": {
+   "type": "concept",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/concepts/sales-outbound/C_followup_as_system.md": {
+   "type": "concept",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/concepts/sales-outbound/C_one_person_agency.md": {
+   "type": "concept",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/concepts/sales-outbound/C_price_after_value.md": {
+   "type": "concept",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/concepts/sales-outbound/C_warmup_throttle.md": {
+   "type": "concept",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/concepts/sales-outbound/C_measure_then_scale.md": {
+   "type": "concept",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/concepts/sales-outbound/C_diagnose_before_solution.md": {
+   "type": "concept",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/wiki-building/G_pro_prompt.md": {
+   "type": "glossary",
+   "topic": "wiki-building",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/wiki-building/G_yt_wiki.md": {
+   "type": "glossary",
+   "topic": "wiki-building",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/wiki-building/G_proof_rule.md": {
+   "type": "glossary",
+   "topic": "wiki-building",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/wiki-building/G_wiki.md": {
+   "type": "glossary",
+   "topic": "wiki-building",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/sales-outbound/G_value_pricing.md": {
+   "type": "glossary",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/sales-outbound/G_consultative_closing.md": {
+   "type": "glossary",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/sales-outbound/G_mailbox_warmup.md": {
+   "type": "glossary",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/sales-outbound/G_send_rate_throttle.md": {
+   "type": "glossary",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/sales-outbound/G_content_positioning.md": {
+   "type": "glossary",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/sales-outbound/G_outbound_metrics.md": {
+   "type": "glossary",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/sales-outbound/G_outbound_followup.md": {
+   "type": "glossary",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/sales-outbound/G_retention_followup.md": {
+   "type": "glossary",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/sales-outbound/G_problem_diagnosis.md": {
+   "type": "glossary",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/sales-outbound/G_offer_clarity.md": {
+   "type": "glossary",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/sales-outbound/G_hook_clarity.md": {
+   "type": "glossary",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/sales-outbound/G_outbound_ops.md": {
+   "type": "glossary",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/sales-outbound/G_story_structure.md": {
+   "type": "glossary",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/sales-outbound/G_postreply_handling.md": {
+   "type": "glossary",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/glossary/sales-outbound/G_multichannel.md": {
+   "type": "glossary",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/masters/wiki-building/M_wiki_hub.md": {
+   "type": "master",
+   "topic": "wiki-building",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/masters/sales-outbound/M_sales_hub.md": {
+   "type": "master",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/wiki-building/T_pro_prompt.md": {
+   "type": "atom",
+   "topic": "wiki-building",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/wiki-building/T_conversation_export.md": {
+   "type": "atom",
+   "topic": "wiki-building",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/wiki-building/T_wiki_talk_decisions_2.md": {
+   "type": "atom",
+   "topic": "wiki-building",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/wiki-building/T_analysis_prompt_rules.md": {
+   "type": "atom",
+   "topic": "wiki-building",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/wiki-building/T_wiki_talk_decisions_1.md": {
+   "type": "atom",
+   "topic": "wiki-building",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_trust_precedes_transaction.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_cold_email_system.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_offer_clarity.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_outbound_infrastructure.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_outbound_multichannel.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_consultative_closing.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_mailbox_warmup.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_retention_followup.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_outbound_ops.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_send_rate_throttle.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_outbound_postreply.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_value_pricing.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_outbound_followup.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_story_structure.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_outbound_metrics.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_content_positioning.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_one_person_agency.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_outbound_targeting.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_hook_clarity.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/atoms/sales-outbound/T_problem_diagnosis.md": {
+   "type": "atom",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/tensions/sales-outbound/X_persistence_vs_relevance.md": {
+   "type": "tension",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/tensions/sales-outbound/X_value_vs_infrastructure.md": {
+   "type": "tension",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  },
+  "biz-media-ar/tensions/sales-outbound/X_volume_vs_signal.md": {
+   "type": "tension",
+   "topic": "sales-outbound",
+   "ns": "biz-media-ar"
+  }
+ },
+ "edges": [
+  {
+   "src": "biz-media-ar/sources/S_wkt_wiki_all_talk.md",
+   "dst": null,
+   "raw": "hatch_widget:..."
+  },
+  {
+   "src": "biz-media-ar/concepts/wiki-building/C_evidence_first_wiki.md",
+   "dst": "biz-media-ar/glossary/wiki-building/G_proof_rule.md",
+   "raw": "G_proof_rule"
+  },
+  {
+   "src": "biz-media-ar/concepts/wiki-building/C_evidence_first_wiki.md",
+   "dst": "biz-media-ar/glossary/wiki-building/G_wiki.md",
+   "raw": "G_wiki"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_content_funnel_clarity.md",
+   "dst": "biz-media-ar/atoms/sales-outbound/T_hook_clarity.md",
+   "raw": "T_hook_clarity"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_content_funnel_clarity.md",
+   "dst": "biz-media-ar/atoms/sales-outbound/T_content_positioning.md",
+   "raw": "T_content_positioning"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_content_funnel_clarity.md",
+   "dst": "biz-media-ar/atoms/sales-outbound/T_story_structure.md",
+   "raw": "T_story_structure"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_content_funnel_clarity.md",
+   "dst": "biz-media-ar/concepts/sales-outbound/C_trust_precedes_transaction.md",
+   "raw": "C_trust_precedes_transaction"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_signal_over_spray.md",
+   "dst": "biz-media-ar/tensions/sales-outbound/X_volume_vs_signal.md",
+   "raw": "X_volume_vs_signal"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_trust_precedes_transaction.md",
+   "dst": "biz-media-ar/atoms/sales-outbound/T_trust_precedes_transaction.md",
+   "raw": "T_trust_precedes_transaction"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_trust_precedes_transaction.md",
+   "dst": "biz-media-ar/atoms/sales-outbound/T_story_structure.md",
+   "raw": "T_story_structure"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_trust_precedes_transaction.md",
+   "dst": "biz-media-ar/glossary/sales-outbound/G_value_pricing.md",
+   "raw": "G_value_pricing"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_followup_as_system.md",
+   "dst": "biz-media-ar/glossary/sales-outbound/G_postreply_handling.md",
+   "raw": "G_postreply_handling"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_followup_as_system.md",
+   "dst": "biz-media-ar/glossary/sales-outbound/G_retention_followup.md",
+   "raw": "G_retention_followup"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_followup_as_system.md",
+   "dst": "biz-media-ar/glossary/sales-outbound/G_multichannel.md",
+   "raw": "G_multichannel"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_followup_as_system.md",
+   "dst": "biz-media-ar/glossary/sales-outbound/G_outbound_followup.md",
+   "raw": "G_outbound_followup"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_one_person_agency.md",
+   "dst": "biz-media-ar/glossary/sales-outbound/G_send_rate_throttle.md",
+   "raw": "G_send_rate_throttle"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_one_person_agency.md",
+   "dst": "biz-media-ar/concepts/sales-outbound/C_warmup_throttle.md",
+   "raw": "C_warmup_throttle"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_price_after_value.md",
+   "dst": "biz-media-ar/tensions/sales-outbound/X_value_vs_infrastructure.md",
+   "raw": "X_value_vs_infrastructure"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_warmup_throttle.md",
+   "dst": "biz-media-ar/glossary/sales-outbound/G_mailbox_warmup.md",
+   "raw": "G_mailbox_warmup"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_warmup_throttle.md",
+   "dst": "biz-media-ar/glossary/sales-outbound/G_send_rate_throttle.md",
+   "raw": "G_send_rate_throttle"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_measure_then_scale.md",
+   "dst": "biz-media-ar/glossary/sales-outbound/G_outbound_metrics.md",
+   "raw": "G_outbound_metrics"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_measure_then_scale.md",
+   "dst": "biz-media-ar/glossary/sales-outbound/G_outbound_ops.md",
+   "raw": "G_outbound_ops"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_diagnose_before_solution.md",
+   "dst": "biz-media-ar/atoms/sales-outbound/T_problem_diagnosis.md",
+   "raw": "T_problem_diagnosis"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_diagnose_before_solution.md",
+   "dst": "biz-media-ar/atoms/sales-outbound/T_offer_clarity.md",
+   "raw": "T_offer_clarity"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_diagnose_before_solution.md",
+   "dst": "biz-media-ar/atoms/sales-outbound/T_consultative_closing.md",
+   "raw": "T_consultative_closing"
+  },
+  {
+   "src": "biz-media-ar/concepts/sales-outbound/C_diagnose_before_solution.md",
+   "dst": "biz-media-ar/glossary/sales-outbound/G_consultative_closing.md",
+   "raw": "G_consultative_closing"
+  },
+  {
+   "src": "biz-media-ar/masters/wiki-building/M_wiki_hub.md",
+   "dst": "biz-media-ar/concepts/wiki-building/C_evidence_first_wiki.md",
+   "raw": "concepts/wiki-building/C_evidence_first_wiki.md"
+  },
+  {
+   "src": "biz-media-ar/masters/wiki-building/M_wiki_hub.md",
+   "dst": "biz-media-ar/glossary/wiki-building/G_wiki.md",
+   "raw": "glossary/wiki-building/G_wiki.md"
+  },
+  {
+   "src": "biz-media-ar/masters/wiki-building/M_wiki_hub.md",
+   "dst": "biz-media-ar/glossary/wiki-building/G_proof_rule.md",
+   "raw": "glossary/wiki-building/G_proof_rule.md"
+  },
+  {
+   "src": "biz-media-ar/masters/wiki-building/M_wiki_hub.md",
+   "dst": "biz-media-ar/glossary/wiki-building/G_pro_prompt.md",
+   "raw": "glossary/wiki-building/G_pro_prompt.md"
+  },
+  {
+   "src": "biz-media-ar/masters/wiki-building/M_wiki_hub.md",
+   "dst": "biz-media-ar/glossary/wiki-building/G_yt_wiki.md",
+   "raw": "glossary/wiki-building/G_yt_wiki.md"
+  },
+  {
+   "src": "biz-media-ar/masters/sales-outbound/M_sales_hub.md",
+   "dst": "biz-media-ar/tensions/sales-outbound/X_value_vs_infrastructure.md",
+   "raw": "tensions/sales-outbound/X_value_vs_infrastructure.md"
+  },
+  {
+   "src": "biz-media-ar/masters/sales-outbound/M_sales_hub.md",
+   "dst": "biz-media-ar/tensions/sales-outbound/X_volume_vs_signal.md",
+   "raw": "tensions/sales-outbound/X_volume_vs_signal.md"
+  },
+  {
+   "src": "biz-media-ar/masters/sales-outbound/M_sales_hub.md",
+   "dst": "biz-media-ar/tensions/sales-outbound/X_persistence_vs_relevance.md",
+   "raw": "tensions/sales-outbound/X_persistence_vs_relevance.md"
+  },
+  {
+   "src": "biz-media-ar/masters/sales-outbound/M_sales_hub.md",
+   "dst": "biz-media-ar/concepts/sales-outbound/C_signal_over_spray.md",
+   "raw": "concepts/sales-outbound/C_signal_over_spray.md"
+  },
+  {
+   "src": "biz-media-ar/masters/sales-outbound/M_sales_hub.md",
+   "dst": "biz-media-ar/concepts/sales-outbound/C_trust_precedes_transaction.md",
+   "raw": "concepts/sales-outbound/C_trust_precedes_transaction.md"
+  },
+  {
+   "src": "biz-media-ar/masters/sales-outbound/M_sales_hub.md",
+   "dst": "biz-media-ar/concepts/sales-outbound/C_content_funnel_clarity.md",
+   "raw": "concepts/sales-outbound/C_content_funnel_clarity.md"
+  },
+  {
+   "src": "biz-media-ar/masters/sales-outbound/M_sales_hub.md",
+   "dst": "biz-media-ar/concepts/sales-outbound/C_diagnose_before_solution.md",
+   "raw": "concepts/sales-outbound/C_diagnose_before_solution.md"
+  },
+  {
+   "src": "biz-media-ar/masters/sales-outbound/M_sales_hub.md",
+   "dst": "biz-media-ar/concepts/sales-outbound/C_price_after_value.md",
+   "raw": "concepts/sales-outbound/C_price_after_value.md"
+  },
+  {
+   "src": "biz-media-ar/masters/sales-outbound/M_sales_hub.md",
+   "dst": "biz-media-ar/concepts/sales-outbound/C_followup_as_system.md",
+   "raw": "concepts/sales-outbound/C_followup_as_system.md"
+  },
+  {
+   "src": "biz-media-ar/masters/sales-outbound/M_sales_hub.md",
+   "dst": "biz-media-ar/concepts/sales-outbound/C_warmup_throttle.md",
+   "raw": "concepts/sales-outbound/C_warmup_throttle.md"
+  },
+  {
+   "src": "biz-media-ar/masters/sales-outbound/M_sales_hub.md",
+   "dst": "biz-media-ar/concepts/sales-outbound/C_measure_then_scale.md",
+   "raw": "concepts/sales-outbound/C_measure_then_scale.md"
+  },
+  {
+   "src": "biz-media-ar/masters/sales-outbound/M_sales_hub.md",
+   "dst": "biz-media-ar/concepts/sales-outbound/C_one_person_agency.md",
+   "raw": "concepts/sales-outbound/C_one_person_agency.md"
+  }
+ ]
+}
