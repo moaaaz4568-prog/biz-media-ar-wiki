@@ -59,7 +59,7 @@ CREATE INDEX IF NOT EXISTS idx_chunks_path ON chunks(path);
 """
 
 EXCLUDED_DIRS = ('.git', DB_DIR, 'archive', 'rejected', 'node_modules',
-                 'tools', 'docs', 'examples', 'namespaces', 'eval')
+                 'tools', 'docs', 'examples', 'namespaces', 'eval', 'audit')
 
 
 def db_path(root):
@@ -112,7 +112,9 @@ def _walk_md(root):
     for dirpath, dirs, files in os.walk(root):
         dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
         for fn in sorted(files):
-            if fn.endswith('.md') and fn not in ('INDEX.md', 'LOG.md'):
+            if fn.endswith('.md') and fn not in ('INDEX.md', 'LOG.md',
+                                                 'TOPIC.md', 'USAGE.md',
+                                                 'HOME.md', 'HISTORY.md'):
                 yield os.path.join(dirpath, fn)
 
 
