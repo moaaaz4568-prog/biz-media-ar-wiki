@@ -159,7 +159,7 @@ built_from_hash: a00de6960d296dcf92682173091e940f552d6bb6
 - [[glossary/wiki-building/G_wiki.md|G_wiki — الويكي]]
 - [[glossary/wiki-building/G_proof_rule.md|G_proof_rule — قاعدة الدليل]]
 - [[glossary/wiki-building/G_pro_prompt.md|G_pro_prompt — البرومبت الاحترافي]]
-- [[glossary/wiki-building/G_yt_wiki.md|G_yt_wiki — ويكي يوتيوب]]\n
+- [[glossary/wiki-building/G_yt_wiki.md|G_yt_wiki — ويكي يوتيوب]]
 ### قالب 4: قالب توسيع من النموذج الصغير إلى الإنتاج
 
 - المعيار المفروض قبل التوسيع: نسبة الاسترجاع الصحيح على أسئلة اختبار النطاق الصغير.

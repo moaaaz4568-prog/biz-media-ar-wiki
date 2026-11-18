@@ -32,7 +32,6 @@ sources: [sources/S_cpt_CPT_CURATED_OUTBOUND_TARGETING.md]
 - "الاستهداف الجيد في هذه المصادر ليس جمع عناوين فقط؛ هو اختيار ICP ثم البحث عن إشارة تجعل الرسالة قابلة للتفسير." — sources/S_cpt_CPT_CURATED_OUTBOUND_TARGETING.md
 - "Instantly يعرض مرشح التقنية للعثور على شركات تستخدم حلولًا مرتبطة بالمشكلة" — sources/S_cpt_CPT_CURATED_OUTBOUND_TARGETING.md
 - "وينتقد نقاش Expandi/Ocean الرش العشوائي ويدعو إلى ICP واضح ونهج منظم" — sources/S_cpt_CPT_CURATED_OUTBOUND_TARGETING.md
-- "الاستهداف الجيد في هذه المصادر ليس جمع عناوين فقط؛ هو اختيار ICP ثم البحث عن إشارة تجعل الرسالة قابلة للتفسير." — sources/S_cpt_CPT_CURATED_OUTBOUND_TARGETING.md
 
 *الثقة*: عالية — المصدر ينتقد الرش صراحة ويعطي بدائل أداة قابلة للتحقق.
 *انحياز المصدر*: مصادر بائعي أدوات تستفيد من تعقيد الاستهداف، لكن النقد موجه لأداة منافسة أيضاً فالانحياز محدود.
