@@ -1,88 +1,81 @@
-# Knowledge Forge
+# biz-media-ar-wiki — ويكي معرفة عربية مبنية على الدليل
 
-Turn a pile of raw documents into a knowledge base an AI can actually reason over.
+ويكي عربية تُحوِّل مصادر خام إلى معرفة طبقية موثقة قابلة للاستعلام: كل معلومة ترجع إلى اقتباس حرفي في ملف مصدر، وكل تعارض بين المصادر يُحفظ ظاهراً كتوتر موثق، وكل رقم يقيسه أمر قابل لإعادة التشغيل. هذه الصفحة للزائر الجديد؛ بوابة القراءة الفعلية في `namespaces/biz-media-ar/HOME.md`، وتعليمات العمل الكاملة للمساعد الآلي في `AGENT.md`.
 
-Drop your files into `sources/`, tell your AI assistant **"Read `AGENT.md` and follow it"**, and it will convert your sources into a layered, cited, queryable knowledge base. When you later ask a question, the assistant answers from *your* knowledge, with a source for every claim — not from its own memory.
+## ما هذه الويكي؟
 
-Works with any topic (business, law, medicine, a hobby, a company handbook) and any language. No servers, no database, no vendor lock‑in. Plain Markdown + Git. Any coding assistant that can read and write files can run it.
+الويكي، في النطاق `biz-media-ar`، قاعدة معرفية عربية بموضوعين: نظام المبيعات الخارجية لوكالة الشخص الواحد (sales-outbound)، وبناء ويكي المعرفة بالدليل أولاً (wiki-building). بدأت من 24 وثيقة مصدر مجموعها 69,597 كلمة دخلت كاملة كما هي؛ لا يُعدَّل حرف واحد في المصدر لأنه الشاهد الوحيد القادر على إثبات خطأ أي طبقة أعلى منه، وما يُستبعد يُنقل إلى `rejected/` ولا يُحذف أبداً. فوق المصادر بُنيت طبقات تجميع تشير إليه: اقتباسات حرفية بلا تفسير، مسارد مصطلحات، مفاهيم بحدود وأدلة، توترات تحفظ التعارض ظاهراً بدل حسمه بصمت، ثم ماستران يجمعان كل موضوع في دليل واحد قابل للتنفيذ. الجودة هنا ليست ادعاءً: البوابات تعمل كوداً على كل ملف (81 كياناً، 0 مرفوضاً)، والاسترجاع يقاس بأسئلة معروفة الإجابة قبل أي توسيع، وكل قياس يسجَّل في `LOG.md` مع الأمر الذي أنتجه. والقاعدة كلها ماركداون وGit — بلا خادم ولا قاعدة بيانات خارجية — فتبقى قابلة للقراءة والتفتيش بأي أداة، وكل ما هو مشتق منها قابل لإعادة البناء من الملفات نفسها.
 
-**The method ships with executable tools** (`tools/`, Python stdlib only for the core loop — no dependencies to install): the GATES.md checks run as code, retrieval is a real BM25 engine over a SQLite index (language-aware, Arabic first), evaluation measures recall@k per tier / faithfulness instead of asserting them, and `forge verify` turns the whole quality system into one PASS/FAIL command.
+## الطبقات السبع: من المصدر إلى الفهرسة
 
-**v2 adds**: multiple **namespaces** with structural isolation (one index per knowledge base, leak-tested), **hybrid retrieval** (BM25 + local dense embeddings + RRF fusion + optional rerank — runs fully local, no API), a **running answering system** (constrained generation with answer receipts and runtime faithfulness, via CLI and MCP), **graduated evaluation tiers** (exact / paraphrase / comparison / unanswerable — reported per tier, never blended), and a second worked example in a different language and topic.
+تُبنى المعرفة هنا في سبع طبقات: ست طبقات معرفية متسلسلة، ثم طبقة الفهرسة التي تحوّلها إلى قابلة للاستعلام. القاعدة الحاكمة واحدة: كل طبقة تشير إلى ما تحتها، ولا تُبنى طبقة قبل أن تجتاز التي تحتها بواباتها، والمصدر الأصلي يبقى دائماً في مكانه كما دخل.
 
-## Quick start
+- المصدر `S_` — 24 ملفاً (69,597 كلمة): الوثيقة الأصلية، للقراءة فقط، لا تُفسَّر ولا تُختصر.
+- الذرّة `T_` — 25: اقتباس حرفي واحد بمكانه الدقيق من مصدره، بلا أي تفسير.
+- المسرد `G_` — 25: مدخل مصطلح: الاسم، المرادفات، الأصل، ومثال حي واحد.
+- المفهوم `C_` — 10: وحدة معرفة مبنية من ذرات: تعريف، آلية، حدود، أدلة.
+- التوتر `X_` — 3: تعارض موثق بين وجهتين، مع الشرط الذي يفرّق بينهما.
+- الماستر `M_` — 2: دليل الموضوع الخبير، يُبنى من مفاهيم موضوعه لا من قالب جاهز.
+- الفهرسة — 91 ملفاً يُفرَّد إلى 1019 مقطعاً في فهرس BM25 فوق SQLite، مع تضمين كثيف محلي بنموذج e5-small: 1019 متجهاً في 384 بُعداً.
 
-1. **Get the repo.** Clone or download it.
-2. **Create your namespace.** `python3 tools/forge.py init mykb --language en`
-   (or work in the repo root's `sources/` — the default namespace).
-3. **Add your material.** Copy your documents (transcripts, notes, PDFs exported to text, articles) into `namespaces/mykb/sources/`. Anything goes in, whole, unedited.
-4. **Point your assistant at it.** Open your AI coding assistant in this folder and say:
-   > Read `AGENT.md` and follow it to build my knowledge base from `namespaces/mykb/sources/`.
-5. **Build + verify.** `python3 tools/forge.py build --namespace mykb` runs the pipeline with gates; `python3 tools/forge.py verify` prints one PASS/FAIL over gates + tests + eval + the namespace leak test.
-6. **Ask.** `python3 tools/forge.py ask "your question" --namespace mykb` — cited answer or exactly "not in the sources".
+وتعرّف `docs/ONTOLOGY.md` طبقة تركيب لاحقة `Y_` تُبنى من ثلاثة ماسترات فأكثر؛ لم تُبنَ بعد في هذه الويكي.
 
-## See it working before you start
+## أرقام الوضع الحالي
 
-Two complete examples ship in the repo — **different languages, different topics, both green** (the generality proof: a change breaking either fails):
-
-```bash
-python3 tools/forge.py verify                       # gates + self-test + tests + eval + leak test
-#                                                     # clean-clone-to-green: PASS in 0.45s (measured, no dependencies)
-python3 tools/forge.py status                       # what is built, per namespace
-
-cd examples/ar-outreach                             # Arabic cold-email workshop KB
-python3 ../../tools/gates.py check                  # 16 entities, 0 rejected (repo-wide)
-python3 ../../tools/retriever.py search "ما سقف عدد الكلمات في الرسالة"
-python3 ../../tools/retriever.py route "اعمل حملة أوتريتش جديدة"    # TASK mode
-
-cd ../en-handbook                                   # English café ops handbook KB
-python3 ../../tools/forge.py ask "How long do espresso machines need to warm up?" --namespace en-handbook
-```
-
-**Optional dense rung** (fully local, ~118 MB, no API keys):
-```bash
-pip install onnxruntime tokenizers sqlite-vec
-python3 tools/embed.py download e5-small
-python3 tools/embed.py index --namespace ar-outreach
-python3 tools/evalrun.py --compare-engines         # keyword vs hybrid, per tier
-```
-Without them everything above still works — keyword-only, and the answer receipt says so.
-
-## What you get
-
-- A clean pipeline: `source → glossary → atom → concept → tension → master`, enforced by **executable gates** (`tools/gates.py` — C1–C8 / M1–M10 / T1–T4 / X1–X4 / G1–G2 / N1, 26 gates with a self-test proving each can fail).
-- **Namespaces** (`tools/forge.py init`): one corpus, one voice, one index each — isolation proven by canary leak tests, not asserted (see `docs/NAMESPACES.md`).
-- **Graduated master levels** (L0→L3): your first master starts at 6 sections / 2,000 words and climbs to 18 / 10,000 as the topic matures — instead of being rejected on day one.
-- **A real retrieval engine** (`tools/retriever.py`): BM25 over language-normalized tokens (per-language registry — Arabic folding built in, English stemming, add more as data), hybrid fusion with local ONNX embeddings, SQLite-backed, incremental by content hash, topic/layer/namespace filters.
-- **A running answering system**: `forge ask` (QUESTION), `forge do` (TASK — reads the routed masters in full, then executes from them), the MCP server for any MCP-capable model, answer receipts, runtime faithfulness, and the "not in the sources" contract (see `docs/ANSWERING.md`).
-- **Measurement, not assertion** (`tools/evalrun.py`): recall@k per tier (exact / paraphrase / comparison / unanswerable) against known-answer questions, `--compare-engines` for keyword vs hybrid, faithfulness of generated answers — separated from generation, as the method requires.
-- Every claim traceable to an exact quote in a source file (the gates verify quotes against `sources/`, line-wrap folded).
-- Conflicting views kept side by side, never silently "corrected."
-
-## How it reads (map)
-
-| You want… | Open |
+| القياس | القيمة |
 |---|---|
-| The one instruction file for the AI | `AGENT.md` |
-| The non‑negotiable rules | `docs/PRINCIPLES.md` |
-| The layers and strict naming | `docs/ONTOLOGY.md` |
-| Measurable quality gates (and the tool that runs them) | `docs/GATES.md` + `tools/gates.py` |
-| Namespaces and isolation | `docs/NAMESPACES.md` |
-| How the AI answers (modes, receipts, rungs) | `docs/ANSWERING.md` |
-| Folder layout | `docs/STRUCTURE.md` |
-| How to build a master | `docs/MASTER_GUIDE.md` |
-| How concepts and atoms are written | `docs/CONCEPT_GUIDE.md` |
-| How the search engine works (and the tools behind it) | `docs/RETRIEVAL.md` + `tools/retriever.py` + `tools/embed.py` |
-| How to configure it for your project | `config.yml` |
-| How evaluation is measured | `tools/evalrun.py` + `eval/questions.yml` (tiers) |
-| Complete worked examples (AR + EN) | `examples/ar-outreach/`, `examples/en-handbook/` |
-| Every decision with its rejected alternative | `DECISIONS.md` (D1–D20) |
-| What was measured, with commands | `LOG.md` |
+| المصادر `S_` | 24 ملفاً، 69,597 كلمة |
+| الذرات `T_` | 25 |
+| المسارد `G_` | 25 |
+| المفاهيم `C_` | 10 |
+| التوترات `X_` | 3 |
+| الماسترات `M_` | 2 (M_sales_hub و M_wiki_hub) |
+| بوابات الجودة | 81 كياناً، 0 مرفوضاً |
+| الفهرسة | 91 ملفاً ← 1019 مقطعاً |
+| التضمين الكثيف | 1019 متجهاً × 384 بُعداً (e5-small، محلي) |
+| الاسترجاع recall@10 | 12/12 = 1.000 (keyword = hybrid = rerank) |
+| `forge verify` | PASS 8/8 |
+| جراف الكيانات | 89 عقدة / 42 حافة محققة + 1 إيجابية كاذبة موثقة |
+| الموضوعات | sales-outbound و wiki-building |
 
-## Why it is built this way
-Every rule here exists to prevent a specific, common failure of ad‑hoc "just summarize my files" attempts: summaries that drift from the source, numbers no one can verify, one big blob the model can't navigate, and "expert" files that are confidently wrong. See `docs/PRINCIPLES.md`.
+هذه أرقام آخر قياس موثق، وكل رقم فيها له سطر في `LOG.md` يذكر الأمر الذي أنتجه؛ أعد قياسها بنفسك بـ `forge status` و`forge verify` قبل أن تبني عليها قراراً. جراف الكيانات مبني من روابط الويكي `[[...]]` بين الملفات: 89 عقدة و42 حافة تحققت كل واحدة منها تحققاً مستقلاً، مع رابط واحد التقطه المستخرج خطأً من نص توثيقي داخل backticks — إيجابية كاذبة موثقة في `GRAPH.md`، لا رابط مكسور. والاسترجاع مقيس باثني عشر سؤالاً معروفة الإجابة على أربع درجات (حرفي، إعادة صياغة، مقارنة، بلا جواب): recall@10 = 12/12 = 1.000 على المحرك اللفظي والهجين وإعادة الترتيب سواء.
 
-The tools follow the same doctrine: gates are code (a gate that can't fail is broken — so each one is tested with a known-bad case), retrieval is measured before trusted (the paraphrase tier exists because keyword-only measurably collapses on it: 0.750 → hybrid 1.000 on the Arabic example), and the core loop runs on the Python standard library alone — dense embeddings and the answering LLM are optional, declared, degradable rungs, and the system always says which rung it is on.
+## كيفية الاستخدام
 
-## License
-MIT (see `LICENSE`). Use it, fork it, build on it.
+الأوامر التالية تعمل من جذر المستودع. ابدأ بالفحص قبل السؤال: `status` يعرض ما هو مبنيٌّ في كل نطاق (الطبقات، مقاطع الفهرس، متجهات التضمين)، و`verify` يختصر نظام الجودة كله في حكم واحد: بوابات قادرة على الفشل، اختبارات وحدة، تقييم استرجاع بأسئلة معروفة الإجابة، واختبار تسريب بين النطاقات — حالياً PASS 8/8.
+
+```bash
+python3 tools/forge.py status                                     # ما المبني في كل نطاق
+python3 tools/forge.py verify                                     # فحص شامل: PASS/FAIL واحد
+
+python3 tools/forge.py ask "ما هو تسعير القيمة؟" --namespace biz-media-ar   # وضع السؤال
+python3 tools/retriever.py search "استعلامك" -k 10 --namespace biz-media-ar  # استرجاع خام للمقاطع
+
+python3 tools/retriever.py route "اعمل حملة أوتريتش" -m 3 --namespace biz-media-ar  # توجيه المهمة
+python3 tools/forge.py do "اعمل حملة أوتريتش" --namespace biz-media-ar              # وضع المهمة
+```
+
+ثم اختر وضعك. وضع السؤال (QUESTION) لمن يريد حقيقة موثقة: يعيد المقاطع المسترجعة مع مصدرها، أو إجابة مولَّدة منها وحدها مع إيصال يستشهد لكل ادعاء. وضع المهمة (TASK) لمن يريد تنفيذاً: يوجَّه الطلب إلى الماستر المسؤول ويُقرأ كاملاً قبل التنفيذ — هذه هي غاية الماسترات كلها. إن لم يجد `route` ماستراً مطابقاً فالموضوع لم يُبنَ بعد؛ القول بذلك واقتراح بنائه (مصادر ← ذرات ← مفاهيم ← ماستر) أصوب من الارتجال. وفي كل الأحوال: أجب مما استُرجع فقط، واستشهد بالمصدر عند كل ادعاء، وقل «ليس في المصادر» حين لا يوجد دليل.
+
+## بنية المجلدات
+
+```
+knowledge-forge/
+├── AGENT.md                     # ملف التعليمات الواحد للمساعد الآلي
+├── docs/                        # المنهجية: PRINCIPLES, ONTOLOGY, GATES, RETRIEVAL, ...
+├── tools/                       # الأدوات التنفيذية: forge, gates, retriever, evalrun
+├── namespaces/biz-media-ar/     # الويكي نفسها
+│   ├── HOME.md                  # بوابة الويكي — ابدأ القراءة من هنا
+│   ├── sources/                 # 24 مصدراً S_ (للقراءة فقط)
+│   ├── atoms/                   # 25 ذرّة T_
+│   ├── glossary/                # 25 مسرداً G_
+│   ├── concepts/                # 10 مفاهيم C_ في موضوعين
+│   ├── tensions/                # 3 توترات X_
+│   ├── masters/                 # ماستران M_
+│   ├── graph/GRAPH.md           # جراف الكيانات (89 عقدة / 42 حافة)
+│   ├── eval/questions.yml       # أسئلة الإجابة المعروفة
+│   └── LOG.md                   # سجل القياسات بالأوامر التي أنتجتها
+└── examples/                    # مثالان عاملان: ar-outreach و en-handbook
+```
+
+كل مجلد محتوى يحمل `INDEX.md` يعدد ما بداخله وغرض كل ملف. مجلد `.kforge/` بيانات مشتقة (فهرس SQLite ومتجهات التضمين) مستثنى من Git ويُعاد بناؤه من الملفات بأمر `index` ثم `embed.py index` عند الحاجة إلى التضمين الكثيف. وما يُستبعد من المحتوى يُنقل إلى `archive/` أو `rejected/` مع سبب مؤرخ، ولا يُحذف شيء أبداً. المنهجية كاملة في `docs/`، وكل قرار تصميمي مع بديله المرفوض في `DECISIONS.md`، وسجل القياسات في `LOG.md` على مستوى المستودع والنطاق معاً.
