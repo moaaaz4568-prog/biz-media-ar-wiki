@@ -1,0 +1,94 @@
+# تدقيق اتساق الفهارس — namespace: biz-media-ar
+
+- **التاريخ**: 2026-11-18
+- **المدقق**: وكيل تدقيق خارجي (قراءة فقط؛ لم يُعدَّل أي ملف داخل الويكي — المخرج الوحيد هو هذا التقرير في `audit/`)
+- **السكربت**: `/home/z/my-project/scripts/check_indexes.py` — سكربت مستقل لا يعتمد على أدوات الويكي، يقرأ الملفات نصياً ويطابق أسماء الملفات والروابط بمسارات نسبية لجذر الويكي
+- **نطاق الفحص**: 10 ملفات `INDEX.md` (كل الموجود تحت الشجرة)، جراف `graph/graph.json`، فهرسا الماسترين، وروابط الويكي في كل ملفات `.md` تحت الشجرة (108 ملفاً، مستثنى `.kforge/`)
+- **لحظة التدقيق**: آخر التزام في المستودع: `f4d57d2 autopush: incremental work 14:14`
+
+## جدول النتائج
+
+| الفحص | النتيجة | التفاصيل |
+|---|---|---|
+| فهرس `archive/INDEX.md` مقابل القرص | سليم | مجلد تشغيلي فارغ من ملفات المحتوى (لا .md فيه غير الفهرس نفسه) — الفهرس فارغ بشكل صحيح |
+| فهرس `atoms/INDEX.md` مقابل القرص | إخفاق | المذكور في الفهرس: 0؛ على القرص: 25 — على القرص وغير مفهرس: 25 |
+| فهرس `concepts/INDEX.md` مقابل القرص | سليم | المذكور في الفهرس: 10 = الملفات على القرص: 10 — تطابق تام |
+| فهرس `eval/INDEX.md` مقابل القرص | سليم | مجلد تشغيلي فارغ من ملفات المحتوى (لا .md فيه غير الفهرس نفسه) — الفهرس فارغ بشكل صحيح |
+| فهرس `glossary/INDEX.md` مقابل القرص | سليم | المذكور في الفهرس: 25 = الملفات على القرص: 25 — تطابق تام |
+| فهرس `masters/INDEX.md` مقابل القرص | إخفاق | المذكور في الفهرس: 2؛ على القرص: 2 — في الفهرس وغير موجود على القرص: 2 |
+| فهرس `rejected/INDEX.md` مقابل القرص | سليم | مجلد تشغيلي فارغ من ملفات المحتوى (لا .md فيه غير الفهرس نفسه) — الفهرس فارغ بشكل صحيح |
+| فهرس `sources/INDEX.md` مقابل القرص | سليم | المذكور في الفهرس: 24 = الملفات على القرص: 24 — تطابق تام |
+| فهرس `synthesis/INDEX.md` مقابل القرص | سليم | المذكور في الفهرس: 0 = الملفات على القرص: 0 — تطابق تام |
+| فهرس `tensions/INDEX.md` مقابل القرص | سليم | المذكور في الفهرس: 3 = الملفات على القرص: 3 — تطابق تام |
+| جراف `graph/graph.json` — العقد | سليم | 89 عقدة، كلها تشير لملفات موجودة على القرص (glossary: 25، atom: 25، concept: 10، source: 24، tension: 3، master: 2) |
+| جراف `graph/graph.json` — الحواف | سليم مع استثناء موثق | 43 حافة، منها 42 محققة بالكامل (الطرفان عقدتان والرابط الخام موجود نصياً في ملف المرسل)؛ حافة واحدة غير محلولة (dst=null): `sources/S_wkt_wiki_all_talk.md` ← الرابط الخام `hatch_widget:...` — نص توثيقي داخل backticks في المصدر (رمز ويدجت حُذف أثناء التنقيح)، موثق في `graph/GRAPH.md` كإيجابية كاذبة للمستخرج وليس رابطاً مكسوراً |
+| فهرس مفاهيم `masters/sales-outbound/M_sales_hub.md` | سليم | قسم «فهرس المفاهيم» موجود؛ كل الروابط (9) تشير لمفاهيم موجودة في `concepts/sales-outbound/`، وكل مفاهيم الموضوع (9) مذكورة في الفهرس |
+| فهرس مفاهيم `masters/wiki-building/M_wiki_hub.md` | سليم | قسم «فهرس المفاهيم» موجود؛ كل الروابط (1) تشير لمفاهيم موجودة في `concepts/wiki-building/`، وكل مفاهيم الموضوع (1) مذكورة في الفهرس |
+| روابط wiki `[[...]]` في كل ملفات .md | سليم | فُحص 108 ملفاً؛ رصد 137 رابطاً (`[[...]]`) منها 127 فعلية؛ المكسورة: 0. استُثني 10 ذكر توثيقي داخل backticks (في USAGE.md وgraph/GRAPH.md والمصدر S_wkt_wiki_all_talk.md) — ليست روابط |
+
+**الخلاصة: 12 فحصاً سليماً، 2 فحصاً بإخفاق، 1 فحصاً سليماً مع استثناء موثق.**
+
+## تفاصيل المشاكل المكتشفة
+
+فحص 2 من الفحوص كشف انحرافات حقيقية بين الفهارس والقرص. التفاصيل الكاملة أدناه كما قاسها السكربت — لم تُصلح أثناء التدقيق.
+
+### 1) فهرس atoms/ فارغ تماماً بينما الطبقة تحتوي 25 ذرة
+
+ملف `atoms/INDEX.md` يحتوي الترويسة فقط (`# Index — atoms/` وجدول فارغ برأس `| File | Notes |`) ولا يسرد أي ملف. في المقابل يوجد على القرص **25 ملف ذرة** غير مفهرسة: 20 في `atoms/sales-outbound/` (T_cold_email_system، T_consultative_closing، T_content_positioning، T_hook_clarity، T_mailbox_warmup، T_offer_clarity، T_one_person_agency، T_outbound_followup، T_outbound_infrastructure، T_outbound_metrics، T_outbound_multichannel، T_outbound_ops، T_outbound_postreply، T_outbound_targeting، T_problem_diagnosis، T_retention_followup، T_send_rate_throttle، T_story_structure، T_trust_precedes_transaction، T_value_pricing) و5 في `atoms/wiki-building/` (T_analysis_prompt_rules، T_conversation_export، T_pro_prompt، T_wiki_talk_decisions_1، T_wiki_talk_decisions_2). مقارنةً بفهارس الطبقات المناظرة (glossary: 25/25، concepts: 10/10، tensions: 3/3، sources: 24/24) فإن فهرس الذرات وحده المخالف. ملاحظة: أداة التهيئة الرسمية (`forge.py init`) تنشئ `INDEX.md` فارغاً كقالب عند إنشاء الـnamespace ومن المفترض أن يُملأ مع بناء الطبقة («فهرس في كل مجلد» قاعدة موثقة في المصدر S_wkt_conversation-export)، فالفراغ إغفال لا حالة معتمدة.
+
+قائمة الملفات الـ25 غير المفهرسة كما قاسها السكربت:
+
+| # | الملف على القرص وغير المفهرس |
+|---|---|
+| 1 | `atoms/sales-outbound/T_cold_email_system.md` |
+| 2 | `atoms/sales-outbound/T_consultative_closing.md` |
+| 3 | `atoms/sales-outbound/T_content_positioning.md` |
+| 4 | `atoms/sales-outbound/T_hook_clarity.md` |
+| 5 | `atoms/sales-outbound/T_mailbox_warmup.md` |
+| 6 | `atoms/sales-outbound/T_offer_clarity.md` |
+| 7 | `atoms/sales-outbound/T_one_person_agency.md` |
+| 8 | `atoms/sales-outbound/T_outbound_followup.md` |
+| 9 | `atoms/sales-outbound/T_outbound_infrastructure.md` |
+| 10 | `atoms/sales-outbound/T_outbound_metrics.md` |
+| 11 | `atoms/sales-outbound/T_outbound_multichannel.md` |
+| 12 | `atoms/sales-outbound/T_outbound_ops.md` |
+| 13 | `atoms/sales-outbound/T_outbound_postreply.md` |
+| 14 | `atoms/sales-outbound/T_outbound_targeting.md` |
+| 15 | `atoms/sales-outbound/T_problem_diagnosis.md` |
+| 16 | `atoms/sales-outbound/T_retention_followup.md` |
+| 17 | `atoms/sales-outbound/T_send_rate_throttle.md` |
+| 18 | `atoms/sales-outbound/T_story_structure.md` |
+| 19 | `atoms/sales-outbound/T_trust_precedes_transaction.md` |
+| 20 | `atoms/sales-outbound/T_value_pricing.md` |
+| 21 | `atoms/wiki-building/T_analysis_prompt_rules.md` |
+| 22 | `atoms/wiki-building/T_conversation_export.md` |
+| 23 | `atoms/wiki-building/T_pro_prompt.md` |
+| 24 | `atoms/wiki-building/T_wiki_talk_decisions_1.md` |
+| 25 | `atoms/wiki-building/T_wiki_talk_decisions_2.md` |
+
+### 2) فهرس masters/ يسرد مسارين غير موجودين (مسار مضاعف «masters/masters/»)
+
+ملف `masters/INDEX.md` يسرد في جدوله سطرين بمسار `masters/masters/` المضاعف:
+
+| السطر في الفهرس | المسار الصحيح الموجود على القرص |
+|---|---|
+| `masters/masters/M_sales_hub.md` | `masters/sales-outbound/M_sales_hub.md` |
+| `masters/masters/M_wiki_hub.md` | `masters/wiki-building/M_wiki_hub.md` |
+
+بمطابقة الاسم المجرد كان السطران يشيران فعلياً لملفي الماسترين الموجودين، لكن المسار المكتوب في الفهرس لا وجود له على القرص — من يقرأ الفهرس حرفياً (أداة أو إنسان) لا يجد الملفين. كلا الماسترين موجودان ومكتملان (status: complete في ترويستهما)؛ الخلل في الفهرس وحده.
+
+## تحقق إضافي (خارج الفحوص الأربعة المطلوبة)
+
+1. **`graph/GRAPH.md` متسق مع `graph.json`**: يوثّق GRAPH.md نفس الأعداد المقيسة هنا (89 عقدة، 42 حافة محققة، رابط واحد غير محلول هو `hatch_widget:...`) — لا تعارض بين ملف الجراف وتوثيقه.
+2. **عدم وجود فجوة في الجراف**: توزيع العقد على المواضيع (sales-outbound: 73، wiki-building: 16) يطابق تعداد الطبقات على القرص (24 مصدراً + 25 ذرة + 25 مسرداً + 10 مفاهيم + 3 توترات + 2 ماستر = 89).
+3. **روابط TOPIC.md بوابات الماسترين**: رابطا `[[masters/...]]` في مقدمتي ملفي TOPIC.md يشيران لماسترين موجودين — ضمن فحص الروابط الكامل أعلاه.
+4. **ملف HISTORY.md حديث**: أُنشئ أثناء نافذة التدقيق (بعد آخر حصر قرصي) وهو سرد تاريخي بلا روابط ويكي ولا فهارس — لا تأثير له على نتائج هذا التدقيق، وذُكر هنا للتوثيق فقط.
+
+## ملاحظات منهجية
+
+- استثنى فحص المصادر عمود «الأصل» في `sources/INDEX.md` (مسارات المستودعات الخارجية التي نُسخ منها المصدر) لأنها ليست ملفات طبقة داخل الويكي — فحصنا عمود «الملف» فقط (24/24).
+- عدّ «الروابط الفعلية» يستثني ذكر `[[...]]` داخل backticks في ملفات الشرح والتوثيق: `[[C_...]]` في USAGE.md و`[[...]]` في graph/GRAPH.md و`[[hatch_widget:...]]` في المصدر الخام S_wkt_wiki_all_talk.md — كلها أمثلة نصية وليست روابط.
+- روابط المفاهيم في متن الماسترين تحلّ بالمسار النسبي لجذر الويكي (`concepts/...`) أو بالاسم المجرد (`C_xxx`)، وكلاهما يفحص وجوده على القرص.
+- الحواف في graph.json تحمل حقول src/dst/raw فقط ولا تحمل حقل accepted؛ الحافة تعتبر محققة إذا كان dst ليس null والطرفان عقدتان معروفتان والرابط الخام raw موجود نصياً في ملف المرسل.
+- السكربت والمخرجات لا تعدل أي ملف داخل الويكي؛ التقرير كُتب في `audit/` وهو المخرج المطلوب من التدقيق.
+
